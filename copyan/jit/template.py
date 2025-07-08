@@ -67,28 +67,24 @@ def cpp_format(template: str, keys: Dict[str, Any]) -> str:
 
 
 def generate(includes: Iterable[str], arg_defs: Iterable[Tuple], body: str) -> str:
-    # Common prefix
     code = ""
-
+    # Common prefix
     if IS_WINDOWS:
         code += """
-                #ifdef _WIN32
-                #define EXPORT_API __declspec(dllexport)
-                #else
-                #define EXPORT_API __attribute__((visibility("default")))
-                #endif
-
+#ifdef _WIN32
+    #define EXPORT_API __declspec(dllexport)
+#else
+    #define EXPORT_API __attribute__((visibility("default")))
+#endif
                 """
     else:
         code += """
-                #ifdef _WIN32
-                #define EXPORT_API __declspec(dllexport)
-                #else
-                #define EXPORT_API __attribute__((visibility("default")))
-                #endif
-
-                """
-
+#ifdef _WIN32
+    #define EXPORT_API __declspec(dllexport)
+#else
+    #define EXPORT_API __attribute__((visibility("default")))
+#endif
+"""
     # Includes
     preload_sys_includes = [
         "<cuda.h>",

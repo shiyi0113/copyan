@@ -147,8 +147,6 @@ def build(name: str, arg_defs: tuple, code: str) -> Runtime:
     arch_code = f"{major}{minor}"
     # Define a mapping from arch_code to the gencode flag
     arch_map = {
-        '89': '-gencode=arch=compute_89,code=sm_89',
-        '100': '-gencode=arch=compute_100,code=sm_100',
         '120': '-gencode=arch=compute_120,code=sm_120', 
     }
 

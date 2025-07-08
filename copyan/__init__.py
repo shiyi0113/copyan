@@ -1,5 +1,3 @@
-import torch
-
 from . import jit
+from . import jit_kernels
 from .utils import bench_kineto, calc_diff
-from .jit_kernels import reduce_sum_max_accuracy_test
