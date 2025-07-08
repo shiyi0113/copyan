@@ -16,9 +16,9 @@ def reduce_sum_max(x: torch.Tensor, y0: torch.Tensor, y1: torch.Tensor) -> None:
 
     global includes, template
     space = (
-        # dict(BLOCK_SIZE=512, ITEMS_PER_THREAD=8),
-        # dict(BLOCK_SIZE=512, ITEMS_PER_THREAD=16),
-        # dict(BLOCK_SIZE=1024, ITEMS_PER_THREAD=8),
+        dict(BLOCK_SIZE=512, ITEMS_PER_THREAD=8),
+        dict(BLOCK_SIZE=512, ITEMS_PER_THREAD=16),
+        dict(BLOCK_SIZE=1024, ITEMS_PER_THREAD=8),
         dict(BLOCK_SIZE=1024, ITEMS_PER_THREAD=16),
     )
     args = (x, y0, y1, N)

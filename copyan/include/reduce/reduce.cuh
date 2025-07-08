@@ -78,7 +78,8 @@ block_reduce(
                 val = reduce_op(val, local_val);
             }
         }
-    } else if constexpr (std::is_same_v<T_DECAYED, __half> || std::is_same_v<T_DECAYED, ::half>)
+    }
+    else if constexpr (std::is_same_v<T_DECAYED, __half> || std::is_same_v<T_DECAYED, ::half>)
     {
         for (int item = 0; item < ITEMS_PER_THREAD; ++item)
         {
@@ -98,7 +99,8 @@ block_reduce(
                 val = reduce_op(val, local_val);
             }
         }
-    } else
+    }
+    else
     {
         assert(false);
     }
@@ -125,8 +127,7 @@ block_reduce(
 }
 
 template <typename T, const int BLOCK_SIZE = 1024, const int ITEMS_PER_THREAD = 16>
-void
-reduce_sum_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
+void reduce_sum_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
 {
     const uint32_t threads = BLOCK_SIZE;
 
@@ -142,8 +143,7 @@ reduce_sum_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
 }
 
 template <typename T, const int BLOCK_SIZE = 1024, const int ITEMS_PER_THREAD = 16>
-void
-reduce_max_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
+void reduce_max_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
 {
     const uint32_t threads = BLOCK_SIZE;
 
@@ -155,6 +155,8 @@ reduce_max_c(T *d_input, T *d_output, int n_elements, cudaStream_t stream = 0)
 
     uint32_t blocks = (n_elements + threads - 1) / threads;
     blocks = (blocks + ITEMS_PER_THREAD - 1) / ITEMS_PER_THREAD;
+    const uint32_t items_per_block = threads * ITEMS_PER_THREAD;
+    uint32_t blocks = (n_elements + items_per_block - 1) / items_per_block;
     block_reduce<T, T, MaxOp<T>, ITEMS_PER_THREAD><<<blocks, threads, 0, stream>>>(n_elements, MaxOp<T>(), d_input, d_output, blocks);
 }
 

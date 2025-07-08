@@ -42,7 +42,8 @@ class JITTuner:
         for runtime, tuned_keys in kernels:
             if len(space) > 1:
                 # Check kernel validity
-                return_code = runtime(*args)
+                tuning_args = copy.deepcopy(args)
+                return_code = runtime(*tuning_args)
                 if return_code != 0:
                     # Pass illegal kernels, e.g. insufficient shared memory capacity
                     if os.getenv('COPYAN_JIT_DEBUG', None):
@@ -57,7 +58,7 @@ class JITTuner:
                 torch.randn((4096, 4096), dtype=torch.float, device='cuda') @ torch.randn((4096, 4096), dtype=torch.float, device='cuda')
                 start_event.record()
                 for i in range(20):
-                    assert runtime(*args) == 0
+                    assert runtime(*tuning_args) == 0
                 end_event.record()
                 end_event.synchronize()
                 elapsed_time = start_event.elapsed_time(end_event)
