@@ -63,7 +63,7 @@ class JITTuner:
                 # Measure performance with L2 flush and a large GEMM kernel before to reduce overhead between kernels
                 start_event = torch.cuda.Event(enable_timing=True)
                 end_event = torch.cuda.Event(enable_timing=True)
-                # Yan: Optimized for RTX 4090: smaller cache flush (128MB) and reduced GEMM size (4096x4096)
+                
                 torch.empty(int(128e6 // 4), dtype=torch.int, device="cuda").zero_()
                 torch.randn(
                     (4096, 4096), dtype=torch.float, device="cuda"

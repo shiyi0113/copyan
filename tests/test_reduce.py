@@ -1,11 +1,10 @@
 import torch
-import os
 import copyan
 from copyan import bench_kineto
 
 
 def test_sum_reduce():
-    print("Testing reduce sum:")
+    print("Testing reduce sum & max:")
 
     def test_func():
         N = 1024 * 4096 * 128

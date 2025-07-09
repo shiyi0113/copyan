@@ -120,6 +120,10 @@ def bench_kineto(
     if trace_path is not None:
         profiler.export_chrome_trace(trace_path)
 
+    # print prof_lines
+    # for i, line in enumerate(prof_lines):
+    #     print(f"行 {i}: {line}")
+
     # Return average kernel times
     units = {"ms": 1e3, "us": 1e6}
     kernel_times = []
