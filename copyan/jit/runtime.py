@@ -46,20 +46,20 @@ class Runtime:
             with open(os.path.join(self.path, "kernel.args"), "r") as f:
                 self.args = eval(f.read())
 
-        assert len(args) == len(
-            self.args
-        ), f"Expected {len(self.args)} arguments, got {len(args)}"
+        assert len(args) == len(self.args), (
+            f"Expected {len(self.args)} arguments, got {len(args)}"
+        )
 
         cargs = []
         for arg, (name, dtype) in zip(args, self.args):
             if isinstance(arg, torch.Tensor):
-                assert (
-                    arg.dtype == dtype
-                ), f"Expected tensor dtype `{dtype}` for `{name}`, got `{arg.dtype}`"
+                assert arg.dtype == dtype, (
+                    f"Expected tensor dtype `{dtype}` for `{name}`, got `{arg.dtype}`"
+                )
             else:
-                assert isinstance(
-                    arg, dtype
-                ), f"Expected built-in type `{dtype}` for `{name}`, got `{type(arg)}`"
+                assert isinstance(arg, dtype), (
+                    f"Expected built-in type `{dtype}` for `{name}`, got `{type(arg)}`"
+                )
             cargs.append(map_ctype(arg))
 
         return_code = ctypes.c_int(0)

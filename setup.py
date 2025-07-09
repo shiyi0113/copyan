@@ -12,6 +12,7 @@ third_party_include_dirs = (
     "third-party/cutlass/include/cutlass",
 )
 
+
 class PostDevelopCommand(develop):
     def run(self):
         develop.run(self)
@@ -30,6 +31,7 @@ class PostDevelopCommand(develop):
                 os.unlink(dst_dir)
             os.symlink(src_dir, dst_dir, target_is_directory=True)
 
+
 class CustomBuildPy(build_py):
     def run(self):
         # First, prepare the include directories
@@ -40,7 +42,7 @@ class CustomBuildPy(build_py):
 
     def prepare_includes(self):
         # Create temporary build directory instead of modifying package directory
-        build_include_dir = os.path.join(self.build_lib, "copyan","include")
+        build_include_dir = os.path.join(self.build_lib, "copyan", "include")
         os.makedirs(build_include_dir, exist_ok=True)
 
         # Copy third-party includes to the build directory
@@ -55,6 +57,7 @@ class CustomBuildPy(build_py):
 
             # Copy the directory
             shutil.copytree(src_dir, dst_dir)
+
 
 if __name__ == "__main__":
     # noinspection PyBroadException
